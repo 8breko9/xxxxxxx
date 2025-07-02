@@ -1,8 +1,0 @@
-apiVersion: tekton.dev/v1beta1
-kind: Pipeline
-metadata:
-  name: fast-build-pipeline
-spec:
-  workspaces:
-  - name: source
- 

@@ -1,10 +1,10 @@
-# Etap 1: Pobieranie zależności
-FROM maven:3.8 AS deps
-WORKDIR /app
+FROM maven as build
+COPY mvnw .
 COPY pom.xml .
-RUN mvn dependency:resolve
+COPY src src
+RUN mvn package -Dmaven.test.skip=true
 
-# Etap 2: Budowanie aplikacji
-FROM deps
-COPY src ./src
-RUN mvn package
+
+FROM eclipse-temurin:19-jdk-alpine
+COPY --from=build /target/demo-0.0.1-SNAPSHOT.jar app.jar
+CMD ["java", "-jar", "app.jar"]
