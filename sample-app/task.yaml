@@ -1,0 +1,15 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-kaniko
+spec:
+  workspaces:
+  - name: source
+  steps:
+  - name: build-and-push
+    image: gcr.io/kaniko-project/executor:latest
+    args:
+    - --dockerfile=$(workspaces.source.path)/sample-app/Dockerfile
+    - --context=dir://$(workspaces.source.path)/sample-app
+    - --destination=your-registry/sample-app:latest
+    - --cache=true
